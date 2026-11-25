@@ -1,0 +1,18 @@
+# Local operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor configuration
+.vscode/
+.idea/
+
+# Dependencies, logs, and secrets
+node_modules/
+*.log
+.env
+.env.*
+
+# Hosting service configuration is not needed for GitHub Pages
+.openai/
+.sites-runtime/

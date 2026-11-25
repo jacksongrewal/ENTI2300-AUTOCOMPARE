@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Look beyond your car payment. Estimate vehicle financing and monthly ownership costs.">
+<title>Beyond the Sticker Price</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+<div class="brand">Beyond the Sticker Price<span style="color:#d9531e">.</span>
+</div>
+<span class="badge">VEHICLE COST CALCULATOR</span>
+</header>
+<main>
+<p class="step">KNOW BEFORE YOU BUY</p>
+<h1>Your car costs more<br>than <span>the payment.</span>
+</h1>
+<p class="intro">See the bigger picture. Add your financing and everyday expenses to estimate what a vehicle could really cost each month.</p>
+<div class="layout">
+<form id="calculator">
+<section class="card">
+<p class="step">01 / THE PURCHASE</p>
+<h2>Vehicle details</h2>
+<div class="grid" id="purchase-fields">
+</div>
+<p class="hint">Tax is estimated on the full vehicle price before subtracting your down payment and trade-in. Adjust the tax rate to match your purchase.</p>
+</section>
+<section class="card">
+<p class="step">02 / EVERYDAY OWNERSHIP</p>
+<h2>Monthly ownership costs</h2>
+<div class="grid" id="ownership-fields">
+</div>
+<p class="hint">Use monthly averages for occasional expenses. Tickets and fines are optional; leave them at $0 if you do not expect any.</p>
+</section>
+<button type="submit">Calculate my monthly cost →</button>
+<p class="note">All amounts in Canadian dollars (CAD).</p>
+</form>
+<aside>
+<section class="card summary" aria-live="polite" aria-atomic="true">
+<h2>Your estimated monthly cash cost</h2>
+<div class="amount">
+<span id="total">—</span>
+<small>/ month</small>
+</div>
+<p class="note" id="status">Based on the example values. Enter your own costs to personalize your estimate.</p>
+<div id="breakdown">
+</div>
+<div class="finance">Amount financed <strong id="financed">—</strong>
+</div>
+<div class="callout" id="difference">
+</div>
+<p class="note">This estimates monthly cash outflow. It excludes depreciation, upfront payments, registration and dealer fees unless you add them. Monthly reserves for repairs and tires may differ from actual spending.</p>
+</section>
+</aside>
+</div>
+</main>
+<footer>Beyond the Sticker Price · A clearer view of vehicle ownership.</footer>
+<script src="script.js">
+</script>
+</body>
+</html>
