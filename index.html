@@ -3,61 +3,152 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Look beyond your car payment. Estimate vehicle financing and monthly ownership costs.">
+<meta name="description" content="Look beyond your car payment. Compare up to three vehicles by financing and monthly ownership costs.">
 <title>Beyond the Sticker Price</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header>
-<div class="brand">Beyond the Sticker Price<span style="color:#d9531e">.</span>
-</div>
-<span class="badge">VEHICLE COST CALCULATOR</span>
+  <div class="brand">Beyond the Sticker Price<span class="dot">.</span></div>
+  <span class="badge">VEHICLE COST COMPARISON</span>
 </header>
+
 <main>
-<p class="step">KNOW BEFORE YOU BUY</p>
-<h1>Your car costs more<br>than <span>the payment.</span>
-</h1>
-<p class="intro">See the bigger picture. Add your financing and everyday expenses to estimate what a vehicle could really cost each month.</p>
-<div class="layout">
-<form id="calculator">
-<section class="card">
-<p class="step">01 / THE PURCHASE</p>
-<h2>Vehicle details</h2>
-<div class="grid" id="purchase-fields">
-</div>
-<p class="hint">Tax is estimated on the full vehicle price before subtracting your down payment and trade-in. Adjust the tax rate to match your purchase.</p>
-</section>
-<section class="card">
-<p class="step">02 / EVERYDAY OWNERSHIP</p>
-<h2>Monthly ownership costs</h2>
-<div class="grid" id="ownership-fields">
-</div>
-<p class="hint">Use monthly averages for occasional expenses. Tickets and fines are optional; leave them at $0 if you do not expect any.</p>
-</section>
-<button type="submit">Calculate my monthly cost →</button>
-<p class="note">All amounts in Canadian dollars (CAD).</p>
-</form>
-<aside>
-<section class="card summary" aria-live="polite" aria-atomic="true">
-<h2>Your estimated monthly cash cost</h2>
-<div class="amount">
-<span id="total">—</span>
-<small>/ month</small>
-</div>
-<p class="note" id="status">Based on the example values. Enter your own costs to personalize your estimate.</p>
-<div id="breakdown">
-</div>
-<div class="finance">Amount financed <strong id="financed">—</strong>
-</div>
-<div class="callout" id="difference">
-</div>
-<p class="note">This estimates monthly cash outflow. It excludes depreciation, upfront payments, registration and dealer fees unless you add them. Monthly reserves for repairs and tires may differ from actual spending.</p>
-</section>
-</aside>
-</div>
+  <p class="step">KNOW BEFORE YOU BUY</p>
+  <h1>Your car costs more<br>than <span>the payment.</span></h1>
+  <p class="intro">Compare up to three vehicles side by side. Add your financing and everyday expenses to see what each option could really cost every month, and over the years you own it.</p>
+
+  <div class="vehicle-bar">
+    <div class="tabs" role="tablist" aria-label="Vehicles" id="tabs"></div>
+    <button type="button" class="btn-ghost" id="add-vehicle">+ Add vehicle</button>
+  </div>
+  <p class="hint tabs-hint" id="tabs-hint">A new vehicle starts as a copy of the one you're viewing, so you only change what's different.</p>
+
+  <div class="layout">
+    <form id="calculator" role="tabpanel" aria-labelledby="" novalidate>
+      <section class="card">
+        <p class="step">01 / THE PURCHASE</p>
+        <div class="card-head">
+          <h2>Vehicle details</h2>
+        </div>
+        <div class="grid name-row">
+          <div>
+            <label for="vehicle-name">Vehicle name</label>
+            <input id="vehicle-name" type="text" maxlength="40" autocomplete="off">
+          </div>
+          <div>
+            <label for="preset">Start from an example</label>
+            <select id="preset">
+              <option value="">Choose an example…</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid" id="purchase-fields"></div>
+        <p class="hint">Tax is estimated on the full vehicle price before subtracting your down payment and trade-in. Example values are illustrative, not quotes.</p>
+      </section>
+
+      <section class="card">
+        <p class="step">02 / EVERYDAY OWNERSHIP</p>
+        <h2>Monthly ownership costs</h2>
+        <div class="grid" id="ownership-fields"></div>
+        <details class="helper">
+          <summary>Help me estimate fuel</summary>
+          <div class="grid helper-grid">
+            <div>
+              <label for="km">Distance per month (km)</label>
+              <input id="km" type="number" min="0" step="1" value="1500">
+            </div>
+            <div>
+              <label for="consumption">Fuel use (L/100 km)</label>
+              <input id="consumption" type="number" min="0" step="0.1" value="8">
+            </div>
+            <div>
+              <label for="fuel-price">Fuel price ($/L)</label>
+              <input id="fuel-price" type="number" min="0" step="0.01" value="1.55">
+            </div>
+            <div class="helper-result">
+              <span id="fuel-estimate">≈ $186.00 / month</span>
+              <button type="button" class="btn-ghost" id="apply-fuel">Use this estimate</button>
+            </div>
+          </div>
+          <p class="hint">For an electric vehicle, use kWh/100 km and your electricity price per kWh instead.</p>
+        </details>
+        <p class="hint">Use monthly averages for occasional expenses. Tickets and fines are optional; leave them at $0 if you do not expect any.</p>
+      </section>
+
+      <div class="form-actions">
+        <p class="note" id="live-note">Results update as you type. All amounts in Canadian dollars (CAD).</p>
+        <button type="button" class="btn-danger" id="remove-vehicle">Remove this vehicle</button>
+      </div>
+    </form>
+
+    <aside>
+      <section class="card summary" aria-live="polite" aria-atomic="true">
+        <h2 id="summary-title">Your estimated monthly cash cost</h2>
+        <div class="amount">
+          <span id="total">—</span>
+          <small>/ month</small>
+        </div>
+        <p class="note" id="status">Updates as you type.</p>
+        <div id="breakdown"></div>
+        <div class="finance">Amount financed <strong id="financed">—</strong></div>
+        <div class="finance">Interest over the loan <strong id="interest">—</strong></div>
+        <div class="callout" id="difference"></div>
+        <p class="note">This estimates monthly cash outflow. It excludes depreciation, upfront payments, registration and dealer fees unless you add them. Monthly reserves for repairs and tires may differ from actual spending.</p>
+      </section>
+    </aside>
+  </div>
+
+  <section class="compare" id="compare" aria-labelledby="compare-title">
+    <div class="compare-head">
+      <div>
+        <p class="step">03 / SIDE BY SIDE</p>
+        <h2 id="compare-title">Compare your options</h2>
+      </div>
+      <div class="compare-actions">
+        <button type="button" class="btn-ghost" id="share">Copy share link</button>
+        <button type="button" class="btn-ghost" id="reset">Reset to examples</button>
+      </div>
+    </div>
+
+    <p class="insight" id="insight" aria-live="polite"></p>
+    <div class="tiles" id="tiles"></div>
+
+    <div class="card chart-card">
+      <h3>Monthly cost breakdown</h3>
+      <p class="chart-sub">What makes up each vehicle's monthly cash cost. Hover or tap a segment for details.</p>
+      <ul class="legend" id="bar-legend"></ul>
+      <div id="bar-chart" class="bar-chart"></div>
+    </div>
+
+    <div class="card chart-card">
+      <div class="chart-head">
+        <div>
+          <h3>Cumulative cash out over time</h3>
+          <p class="chart-sub">Down payment, loan payments and running costs added up month by month. The line flattens when the loan is paid off.</p>
+        </div>
+        <div class="horizon">
+          <label for="horizon">Ownership period: <strong id="horizon-value">5 years</strong></label>
+          <input id="horizon" type="range" min="1" max="10" step="1" value="5">
+        </div>
+      </div>
+      <ul class="legend" id="line-legend"></ul>
+      <div id="line-chart" class="line-chart"></div>
+    </div>
+
+    <div class="card table-card">
+      <h3>Full comparison</h3>
+      <div class="table-wrap">
+        <table id="compare-table"></table>
+      </div>
+      <p class="note">"Cash out" counts the down payment, loan payments made within the period, and running costs. Trade-in value is not counted as cash.</p>
+    </div>
+  </section>
 </main>
-<footer>Beyond the Sticker Price · A clearer view of vehicle ownership.</footer>
-<script src="script.js">
-</script>
+
+<footer>Beyond the Sticker Price · A clearer view of vehicle ownership. Calculations run in your browser; nothing is stored or sent anywhere.</footer>
+
+<div class="tooltip" id="tooltip" hidden></div>
+<script src="script.js"></script>
 </body>
 </html>
